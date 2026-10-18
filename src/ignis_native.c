@@ -503,6 +503,7 @@ static int l_read_sys_telemetry(lua_State *L) {
             if (line_no > 2) {
                 char *colon = strchr(line, ':');
                 if (colon) {
+                    *colon = '\0';
                     char *ifname = line;
                     while (*ifname == ' ' || *ifname == '\t') ifname++;
                     if (strcmp(ifname, "lo") != 0) {
