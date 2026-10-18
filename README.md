@@ -23,8 +23,18 @@ Python runtime, and binds GTK4 directly through GObject Introspection.
   recording, and compositor integrations for Niri and Hyprland.
 - **Batteries included.** Dependency-free SCSS compiler, JSON codec, socket and
   file-monitor utilities, Material 3 spring animation, CLI/IPC control.
-- **Low footprint.** Roughly 6–12 MB resident with a typical bar + panels, and
-  a start-up in the 12–25 ms range on a warm cache.
+- **Measured footprint.** Measured on a 12th-gen i5 running Niri with GTK 4.24
+  and Lua 5.5:
+  - example bar (`examples/bar`), idle: **~86 MiB PSS / ~192 MiB RSS**, 13 threads;
+  - full Exo shell (`exo/config.lua`), idle: **~112 MiB PSS / ~225 MiB RSS**,
+    15 threads, of which ~47 MiB is private;
+  - the same shell with the quick center open: ~119 MiB PSS / ~232 MiB RSS.
+
+  PSS is the process's proportional share of the shared GTK4/Pango/Mesa/font
+  stack; RSS counts those libraries in full for the process, so it is the
+  pessimistic number. Start-up from `exec` to a parsed configuration is about
+  **120 ms** on a warm cache, most of it spent loading the GTK4/GI libraries.
+  Numbers come from `/proc/<pid>/smaps_rollup`.
 
 ## Architecture
 
