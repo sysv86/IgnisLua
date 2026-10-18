@@ -1,0 +1,83 @@
+---@meta
+-- types/ignis.d.lua
+-- LuaLS / EmmyLua Type Definitions for IgnisLua 0.6.0 (Lua 5.5.1)
+
+---@class Ignis
+---@field VERSION string
+---@field CACHE_DIR string
+---@field DATA_DIR string
+---@field Object Ignis.Object
+---@field Binding Ignis.Binding
+---@field Variable fun(val: any): Ignis.Variable
+---@field App Ignis.App
+---@field WindowManager Ignis.WindowManager
+---@field ConfigManager Ignis.ConfigManager
+---@field CommandManager Ignis.CommandManager
+---@field IconManager Ignis.IconManager
+---@field CssManager table
+---@field CssInfoString fun(opts: {name: string, string: string, priority?: string, compiler_function?: function}): table
+---@field CssInfoPath fun(opts: {name: string, path: string, priority?: string, autoreload?: boolean, compiler_function?: function}): table
+---@field DBusService table
+---@field DBusProxy table
+---@field widgets Ignis.Widgets
+---@field services Ignis.Services
+---@field utils Ignis.Utils
+---@field exceptions table
+---@field cli table
+local ignis = {}
+
+---@class Ignis.Widgets
+---@field Box fun(props: table): Ignis.Box
+---@field Button fun(props: table): Ignis.Button
+---@field Calendar fun(props: table): Ignis.Calendar
+---@field CenterBox fun(props: table): Ignis.CenterBox
+---@field CheckButton fun(props: table): Ignis.CheckButton
+---@field Corner fun(props: table): Ignis.Corner
+---@field DropDown fun(props: table): Ignis.DropDown
+---@field Entry fun(props: table): Ignis.Entry
+---@field EventBox fun(props: table): Ignis.EventBox
+---@field FileDialog fun(props: table): Ignis.FileDialog
+---@field Fixed fun(props: table): Ignis.Fixed
+---@field FlowBox fun(props: table): Ignis.FlowBox
+---@field Grid fun(props: table): Ignis.Grid
+---@field HeaderBar fun(props: table): Ignis.HeaderBar
+---@field Icon fun(props: table): Ignis.Icon
+---@field Label fun(props: table): Ignis.Label
+---@field ListBox fun(props: table): Ignis.ListBox
+---@field ListBoxRow fun(props: table): Ignis.ListBoxRow
+---@field Overlay fun(props: table): Ignis.Overlay
+---@field Picture fun(props: table): Ignis.Picture
+---@field PopoverMenu fun(props: table): Ignis.PopoverMenu
+---@field ProgressBar fun(props: table): Ignis.ProgressBar
+---@field RegularWindow fun(props: table): Ignis.RegularWindow
+---@field Revealer fun(props: table): Ignis.Revealer
+---@field RevealerWindow fun(props: table): Ignis.RevealerWindow
+---@field Scale fun(props: table): Ignis.Scale
+---@field Scroll fun(props: table): Ignis.Scroll
+---@field Separator fun(props: table): Ignis.Separator
+---@field Spinner fun(props: table): Ignis.Spinner
+---@field Stack fun(props: table): Ignis.Stack
+---@field StackSwitcher fun(props: table): Ignis.StackSwitcher
+---@field Switch fun(props: table): Ignis.Switch
+---@field ToggleButton fun(props: table): Ignis.ToggleButton
+---@field Window fun(props: table): Ignis.Window
+
+---@class Ignis.Services
+---@field ApplicationsService { get_default: fun(): Ignis.ApplicationsService, search: fun(apps: table, query: string): table }
+---@field AudioService { get_default: fun(): Ignis.AudioService }
+---@field BacklightService { get_default: fun(): Ignis.BacklightService }
+---@field BluetoothService { get_default: fun(): Ignis.BluetoothService }
+---@field FetchService { get_default: fun(): Ignis.FetchService }
+---@field HyprlandService { get_default: fun(): Ignis.HyprlandService }
+---@field MprisService { get_default: fun(): Ignis.MprisService }
+---@field NetworkService { get_default: fun(): Ignis.NetworkService }
+---@field NiriService { get_default: fun(): Ignis.NiriService }
+---@field NotificationService { get_default: fun(): Ignis.NotificationService }
+---@field PowerProfilesService { get_default: fun(): Ignis.PowerProfilesService }
+---@field RecorderService { get_default: fun(): Ignis.RecorderService }
+---@field SystemTrayService { get_default: fun(): Ignis.SystemTrayService }
+---@field SystemdService { get_default: fun(bus_type?: string): Ignis.SystemdService }
+---@field UPowerService { get_default: fun(): Ignis.UPowerService }
+---@field WallpaperService { get_default: fun(): Ignis.WallpaperService }
+
+return ignis

@@ -1,0 +1,124 @@
+$bg-primary: rgba(17, 17, 27, 0.90);
+$bg-surface: rgba(30, 30, 46, 0.94);
+$bg-elevated: rgba(49, 50, 68, 0.92);
+$fg-primary: #cdd6f4;
+$fg-muted: #a6adc8;
+$accent: #89b4fa;
+$arch-blue: #1793d1;
+$urgent: #f38ba8;
+$success: #a6e3a1;
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+  font-size: 13px;
+  color: $fg-primary;
+}
+
+.bar {
+  background-color: $bg-primary;
+  padding: 4px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.arch-launcher-btn {
+  background-color: $arch-blue;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.workspaces {
+  background-color: $bg-surface;
+  border-radius: 8px;
+  padding: 2px 6px;
+}
+
+.ws-btn {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: transparent;
+  color: $fg-muted;
+  transition: all 150ms ease;
+
+  &.active {
+    background-color: $accent;
+    color: #11111b;
+    font-weight: 700;
+  }
+}
+
+.media-pill,
+.network-box,
+.audio-box,
+.battery-box,
+.clock-btn {
+  background-color: $bg-surface;
+  border-radius: 8px;
+  padding: 4px 10px;
+}
+
+.clock {
+  font-weight: 600;
+  color: $accent;
+}
+
+.control-center,
+.app-launcher {
+  background-color: $bg-primary;
+  border: 1px solid rgba(137, 180, 250, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.cc-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cc-toggle {
+  background-color: $bg-surface;
+  border-radius: 10px;
+  padding: 8px;
+
+  &:checked {
+    background-color: $accent;
+    color: #11111b;
+    font-weight: 700;
+  }
+}
+
+.notif-card {
+  background-color: $bg-surface;
+  border-radius: 10px;
+  padding: 10px;
+  border-left: 3px solid $accent;
+
+  &.urgency-critical {
+    border-left-color: $urgent;
+  }
+}
+
+.launcher-search {
+  background-color: $bg-surface;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.launcher-item {
+  background-color: $bg-surface;
+  border-radius: 10px;
+  padding: 8px 12px;
+
+  &:hover {
+    background-color: $bg-elevated;
+  }
+}
+
+.launcher-item-name {
+  font-weight: 600;
+}
+
+.launcher-item-desc {
+  font-size: 11px;
+  color: $fg-muted;
+}

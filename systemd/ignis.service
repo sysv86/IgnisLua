@@ -1,0 +1,15 @@
+[Unit]
+Description=IgnisLua Wayland Desktop Shell Framework
+Documentation=https://github.com/ignis-sh/ignis
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ignis init
+ExecReload=/usr/bin/ignis reload
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

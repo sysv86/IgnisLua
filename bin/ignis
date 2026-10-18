@@ -1,0 +1,42 @@
+#!/usr/bin/env lua
+-- bin/ignis
+-- Clean single-process CLI entrypoint for IgnisLua on Arch Linux.
+-- Uses `ignis.native` (RTLD_GLOBAL pre-binding) and strict GI load ordering
+-- (Gtk4LayerShell 1.0 before Gtk 4.0) in a single process.
+
+local script_path = arg and arg[0] or ""
+local bin_dir = script_path:match("^(.*)/[^/]+$") or "."
+local root_dir = bin_dir .. "/.."
+
+-- Optional local source build of LuaGObject (see deps/).
+-- When the local build is absent, system-wide Lua library dirs are used.
+local share_dir = os.getenv("IGNIS_LUA_SHARE")
+    or root_dir .. "/deps/install/share/lua/5.5"
+
+package.path = table.concat({
+    root_dir .. "/?.lua",
+    root_dir .. "/?/init.lua",
+    share_dir .. "/?.lua",
+    share_dir .. "/?/init.lua",
+    "/usr/share/lua/5.5/?.lua",
+    "/usr/share/lua/5.5/?/init.lua",
+    "/usr/local/share/lua/5.5/?.lua",
+    "/usr/local/share/lua/5.5/?/init.lua",
+    package.path
+}, ";")
+
+package.cpath = table.concat({
+    root_dir .. "/?.so",
+    root_dir .. "/deps/install/lib/lua/5.5/?.so",
+    "/usr/lib/lua/5.5/?.so",
+    "/usr/local/lib/lua/5.5/?.so",
+    package.cpath
+}, ";")
+
+-- Pre-initialize native C engine (loads libgtk4-layer-shell.so.0 and libgvc.so
+-- into RTLD_GLOBAL before any Wayland or GTK4 library is opened).
+pcall(require, "ignis.native")
+
+local cli = require("ignis.cli")
+local code = cli.run(arg)
+os.exit(code or 0)

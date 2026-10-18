@@ -1,0 +1,1 @@
+option('lua_version', type: 'string', value: '5.5', description: 'Target Lua ABI version')

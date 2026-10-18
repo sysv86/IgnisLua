@@ -1,0 +1,71 @@
+name: Bug report
+description: Report a reproducible framework bug.
+title: "bug: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this only for reproducible bugs. Reports without reproduction steps
+        and environment details may be closed without action.
+  - type: textarea
+    id: config
+    attributes:
+      label: Minimal configuration
+      description: The smallest config that triggers the bug.
+      render: lua
+    validations:
+      required: false
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What broke, in one or two sentences?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Exact steps, commands, config snippet or a minimal reproducer.
+      placeholder: |
+        1. Run `...`
+        2. Open `...`
+        3. See `...`
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the error message or a screenshot. Do not paste whole logs.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.8.0 or abc1234
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Distro, compositor (Niri/Hyprland/Sway + version), Lua version (5.5 / LuaJIT),
+GTK4 version, gtk4-layer-shell version, GI backend (LuaGObject / lgi)
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context
+      description: Links, suspected cause, workaround, related issues.
+    validations:
+      required: false
