@@ -1,4 +1,5 @@
 #define _GNU_SOURCE
+#include <dirent.h>
 #include <dlfcn.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -585,6 +586,68 @@ static int l_monotonic_us(lua_State *L) {
     return 1;
 }
 
+/* ---------------------------------------------------------------------------
+ * Framework-facing spellings and small POSIX helpers
+ *
+ * `ignis/utils/file.lua` and `ignis/services/fetch.lua` address fast file I/O
+ * as `read_file_fast` / `write_file_fast` / `file_exists` / `is_dir` /
+ * `count_dir_entries`, and `test.lua` also expects `monotonic_time_us` and
+ * `version`. The `*_fast` / `*_us` names are thin wrappers over the
+ * implementations above so both spellings cannot drift apart.
+ * ------------------------------------------------------------------------ */
+
+static int l_version(lua_State *L) {
+    p_lua_pushstring(L, "0.7.0-native-c11");
+    return 1;
+}
+
+static int l_read_file_fast(lua_State *L) {
+    return l_read_file(L);
+}
+
+static int l_write_file_fast(lua_State *L) {
+    return l_write_file(L);
+}
+
+static int l_monotonic_time_us(lua_State *L) {
+    return l_monotonic_us(L);
+}
+
+static int l_file_exists(lua_State *L) {
+    const char *path = p_lua_tolstring(L, 1, NULL);
+    struct stat st;
+    p_lua_pushboolean(L, (path && stat(path, &st) == 0) ? 1 : 0);
+    return 1;
+}
+
+static int l_is_dir(lua_State *L) {
+    const char *path = p_lua_tolstring(L, 1, NULL);
+    struct stat st;
+    p_lua_pushboolean(L, (path && stat(path, &st) == 0 && S_ISDIR(st.st_mode)) ? 1 : 0);
+    return 1;
+}
+
+static int l_count_dir_entries(lua_State *L) {
+    const char *path = p_lua_tolstring(L, 1, NULL);
+    DIR *dir = path ? opendir(path) : NULL;
+    if (!dir) {
+        p_lua_pushinteger(L, 0);
+        return 1;
+    }
+
+    lua_Integer count = 0;
+    struct dirent *ent;
+    while ((ent = readdir(dir)) != NULL) {
+        if (ent->d_name[0] == '.') continue;
+        if (strcmp(ent->d_name, "ALPM_DB_VERSION") == 0) continue;
+        count++;
+    }
+    closedir(dir);
+
+    p_lua_pushinteger(L, count);
+    return 1;
+}
+
 static void register_fn(lua_State *L, const char *name, lua_CFunction fn) {
     p_lua_pushcclosure(L, fn, 0);
     p_lua_setfield(L, -2, name);
@@ -595,12 +658,19 @@ int luaopen_ignis_native(lua_State *L) {
         return 0;
     }
 
-    p_lua_createtable(L, 0, 6);
+    p_lua_createtable(L, 0, 13);
     register_fn(L, "get_self",           l_get_self);
     register_fn(L, "read_file",          l_read_file);
     register_fn(L, "write_file",         l_write_file);
+    register_fn(L, "read_file_fast",     l_read_file_fast);
+    register_fn(L, "write_file_fast",    l_write_file_fast);
+    register_fn(L, "file_exists",        l_file_exists);
+    register_fn(L, "is_dir",             l_is_dir);
+    register_fn(L, "count_dir_entries",  l_count_dir_entries);
     register_fn(L, "unix_request",       l_unix_request);
     register_fn(L, "read_sys_telemetry", l_read_sys_telemetry);
     register_fn(L, "monotonic_us",       l_monotonic_us);
+    register_fn(L, "monotonic_time_us",  l_monotonic_time_us);
+    register_fn(L, "version",            l_version);
     return 1;
 }
